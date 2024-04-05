@@ -182,134 +182,139 @@ class _homePageState extends State<homePage> {
   Future EditEmployeeDetails(String id) => showDialog(
       context: context,
       builder: (context) => AlertDialog(
-            content: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+            content: ListView(
+              children: [
+                Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        child: Icon(Icons.cancel),
+                      Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Icon(Icons.cancel),
+                          ),
+                          SizedBox(
+                            width: 60,
+                          ),
+                          Text(
+                            "Edit",
+                            style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Details",
+                            style: TextStyle(
+                                color: Colors.orange,
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        "Name",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold),
                       ),
                       SizedBox(
-                        width: 60,
+                        height: 10,
                       ),
-                      Text(
-                        "Edit",
-                        style: TextStyle(
-                            color: Colors.blue,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
+                      Container(
+                        padding: EdgeInsets.only(left: 10),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextFormField(
+                          controller: nameControler,
+                          decoration: InputDecoration(
+                              hintText: "Enter name", border: InputBorder.none),
+                        ),
                       ),
-                      Text(
-                        "Details",
-                        style: TextStyle(
-                            color: Colors.orange,
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          "Age",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 10),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextFormField(
+                          controller: ageControler,
+                          keyboardType: TextInputType.number,
+                          maxLength: 2,
+                          decoration: InputDecoration(
+                            hintText: "Enter Age",
+                            border: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Text(
+                          "Location",
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 10),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextFormField(
+                          controller: locationControler,
+                          decoration: InputDecoration(
+                              hintText: "Enter Location",
+                              border: InputBorder.none),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Center(
+                          child: ElevatedButton(
+                              onPressed: () async {
+                                Map<String, dynamic> updateInfo = {
+                                  "Name": nameControler.text,
+                                  "Age": ageControler.text,
+                                  "Id": id,
+                                  "Location": locationControler.text,
+                                };
+                                await DatabaseMethos()
+                                    .updateEmployeeDetails(id, updateInfo)
+                                    .then((value) {
+                                  Navigator.pop(context);
+                                });
+                              },
+                              child: Text("Update")))
                     ],
                   ),
-                  Text(
-                    "Name",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextFormField(
-                      controller: nameControler,
-                      decoration: InputDecoration(
-                          hintText: "Enter name", border: InputBorder.none),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      "Age",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextFormField(
-                      controller: ageControler,
-                      keyboardType: TextInputType.number,
-                      maxLength: 2,
-                      decoration: InputDecoration(
-                        hintText: "Enter Age",
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(
-                      "Location",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: TextFormField(
-                      controller: locationControler,
-                      decoration: InputDecoration(
-                          hintText: "Enter Location", border: InputBorder.none),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Center(
-                      child: ElevatedButton(
-                          onPressed: () async {
-                            Map<String, dynamic> updateInfo = {
-                              "Name": nameControler.text,
-                              "Age": ageControler.text,
-                              "Id": id,
-                              "Location": locationControler.text,
-                            };
-                            await DatabaseMethos()
-                                .updateEmployeeDetails(id, updateInfo)
-                                .then((value) {
-                              Navigator.pop(context);
-                            });
-                          },
-                          child: Text("Update")))
-                ],
-              ),
+                ),
+              ],
             ),
           ));
 }
